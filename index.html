@@ -1,0 +1,33 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>chat</title>
+	<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+	<div id="emanation">
+		<input type="text" id="msg"><button id="send">发射</button>
+	</div>
+	<div id="content">
+		
+	</div>
+	<script>
+		var socket = io('http://localhost'),
+				content = document.getElementById("content"),
+				sendButton = document.getElementById("send"),
+				msgPanl = document.getElementById("msg");
+		socket.on('new message', function (data) {
+			console.log(data);
+			var msgPanl = document.createElement("div");
+			msgPanl.textContent = data.msg;
+			content.appendChild(msgPanl);
+		});
+		sendButton.onclick = function(){
+			console.log("client:"+msgPanl.value);
+			if(msgPanl.value != ""){
+				socket.emit("new message",{msg:msgPanl.value});
+			}
+		}
+	</script>
+</body>
+</html>
