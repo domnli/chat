@@ -2,14 +2,25 @@
 <head>
 	<meta charset="UTF-8">
 	<title>chat</title>
+	<link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css">
+	<style type="text/css">
+		body { padding-bottom: 70px; }
+		.row{padding: 5px 0; }
+	</style>
 	<script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-	<div id="emanation">
-		<input type="text" id="msg"><button id="send">发射</button>
-	</div>
-	<div id="content">
-		
+	<div class="container">
+	    <div class="row msg-panl">
+			<div class="input-group">
+		      <input id="msg" type="text" class="form-control" placeholder="Typing in ... ">
+		      <span class="input-group-btn">
+		        <button id="send" class="btn btn-default" type="button">发射</button>
+		      </span>
+		    </div>
+	    </div>
+		<div class="row" id="content">
+		</div>
 	</div>
 	<script>
 		var socket = io('http://localhost'),
@@ -17,15 +28,16 @@
 				sendButton = document.getElementById("send"),
 				msgPanl = document.getElementById("msg");
 		socket.on('new message', function (data) {
-			console.log(data);
 			var msgPanl = document.createElement("div");
-			msgPanl.textContent = data.msg;
-			content.appendChild(msgPanl);
+			msgPanl.className="alert alert-info";
+			msgPanl.textContent = data;
+			// content.appendChild(msgPanl);
+			content.insertBefore(msgPanl,content.childNodes[0])
 		});
 		sendButton.onclick = function(){
 			console.log("client:"+msgPanl.value);
 			if(msgPanl.value != ""){
-				socket.emit("new message",{msg:msgPanl.value});
+				socket.emit("new message",msgPanl.value);
 			}
 		}
 	</script>

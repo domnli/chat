@@ -20,16 +20,16 @@ function handler (req, res) {
 var userCounts = 0;
 
 io.on('connection', function (socket) {
-	// fs.writeFile("socketStructure",JSON.stringify(socket));
+
 	userCounts++;
-	console.log(socket.rooms);
 	console.log("连接数:"+userCounts);
 	socket.on('new message', function (data) {
-		console.log(data);
+		console.log("new message:"+data);
 		io.emit('new message',data);
 	});
-	socket.on('disconnection',function(){
+	socket.on('disconnect',function(){
 		userCounts--;
 		console.log(socket.id+"断开连接");
+		console.log("连接数:"+userCounts);
 	})
 });
