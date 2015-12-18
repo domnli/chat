@@ -23,7 +23,7 @@
 		</div>
 	</div>
 	<script>
-		var socket = io('http://localhost'),
+		var socket = io(location.origin),
 				content = document.getElementById("content"),
 				sendButton = document.getElementById("send"),
 				msgPanl = document.getElementById("msg");
